@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>常用配置参数</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <h1>常用配置参数</h1>
+        <div id="app">
+            <div>
+                <img src="./img/1.png" v-if='show'>
+                <img src="./img/2.png" v-else>
+            </div>
+            <button class="btn btn-success" v-on:click='sh'>显示/隐藏</button>
+        </div>
+    </div>
+
+    <template id="content">
+        <!-- 只能有一个根节点 -->
+        <div>
+            <img src="./img/2.png" alt="">
+            <h4>{{title}}</h4>
+        </div>
+    </template>
+
+    <script src="./js/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                show: true,
+                title: '未来'
+            },
+            // template: `#content`,
+            methods:{
+                sh(){
+                    this.show = !this.show;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

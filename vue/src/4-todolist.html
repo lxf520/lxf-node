@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+
+
+        <h1>todoList待办项目列表</h1>
+        <div id="app">
+            <div class="input-group">
+                <input type="text" class="form-control" v-model="title" ref='title' v-on:keyup.13 = 'add'>
+                <div class="btn-group" role="group">
+                    <input type="date" class="border " v-model = 'date'>
+                    <button type="button" class="btn btn-success" v-on:click='add'>添加</button>
+                </div>
+            </div>
+            
+            <table class="table mt-3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">待办事项</th>
+                        <th scope="col">预期时间</th>
+                        <th scope="col">是否完成</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,idx) in weilist">
+                        <th scope="row">{{idx+1}}</th>
+                        <td>{{item.title}}</td>
+                        <td>{{item.date}}</td>
+                        <td>{{item.done?'是':'否'}}</td>
+                        <td>
+                            <div class="btn-group" role="group" >
+                                <button type="button" class="btn btn-outline-info btn-sm" v-on:click = 'complete(item.id)'>完成</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" @click='remove(item.id)'>删除</button>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <table class="table mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">完成事项</th>
+                        <th scope="col">预期时间</th>
+                        <th scope="col">是否完成</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,idx) in donelist">
+                        <th scope="row">{{idx+1}}</th>
+                        <td>{{item.title}}</td>
+                        <td>{{item.date}}</td>
+                        <td>{{item.done?'是':'否'}}</td>
+                        <td>
+                            <div class="btn-group" role="group" >
+                                <button type="button" class="btn btn-outline-info btn-sm">查看</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" @click='remove(item.id)'>删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="status">总共： {{todolist.length}},待办：{{weilist.length}},已完成：{{donelist.length}}</div>
+        </div>
+    </div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                todolist: [{
+                    id: Date.now(),
+                    title: '如果你不能拼爹，就只能拼命',
+                    date: '2019-6-26',
+                    done: false
+                }, {
+                    id: Date.now(),
+                    title: '拼搏到无能为力，坚持到感动',
+                    date: '2019-3-25',
+                    done: truex
+                }],
+                title: '',
+                date: ''
+            },
+            computed:{
+                donelist(){
+                    return this.todolist.filter(item => item.done )
+                },
+                weilist(){
+                    return this.todolist.filter(item => !item.done)
+                }
+            },
+            methods:{
+                add(){
+                    let {date,title} = this;
+                    let data = {
+                        title,
+                        date,
+                        done:false
+                    }
+                    this.todolist.unshift(data);
+                    this.title = '';
+
+                    this.$refs.title.focus();
+                },
+                complete(id){
+                    for(let i =0; i<this.todolist.length; i++){
+                        if(this.todolist[i].id == id){
+                            this.todolist[i].done = true;
+                            break;
+                        }
+                    }
+                },
+                remove(id){
+                    for(let i =0; i<this.todolist.length; i++){
+                        if(this.todolist[i].id == id){
+                            this.todolist.splice(i,1);
+                            break;
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

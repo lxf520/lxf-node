@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <h1>vue的实例化</h1>
+    <div id="app">
+        <h4> {{username}}</h4>
+        <h3>{{password}}</h3>
+        <span id="age">age</span>
+    </div>
+    <script>
+        /* 响应式属性的原理
+             *实例化过程中会遍历data（model）所有的的属性（把属性添加到响应式系统中）
+                *通过Object.defineProperty()把它们变成getter&setter
+                *并写入vue实例中
+        */
+        // 属性特性 （重点）
+        // 设置： Object.defineProperty(obj,key,discriptor)
+        // 获取： Object.getOwnPropertyDescriptor()
+        // discriptor{} 
+            // * 值属性
+            //   *configurable可配置性（总开关：是否可以修改writable & enumerable）
+            //   *value 值  *writable 可写性  *Enumerable 可枚举型
+        // 存储器属性   
+            //   *configurable   *enumerable *get *set          
+
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                username: 'lxf',
+                password: '123456',
+
+            }
+        });
+
+
+        // 存储器属性
+        let age = 18;
+        let person = {
+            get age(){
+                console.log('getter');
+                return age
+            },
+            set age(val){
+                console.log('setter');
+                age = val;
+                document.getElementById('age').innerHTML = age;
+            }
+        }
+
+        document.getElementById('age').innerHTML = age;
+
+        let obj = {
+            username: 'laolin'
+        }
+        // 设置值属性
+        obj.age = 16;
+        Object.defineProperty(obj,'age',{
+            writable:false,
+            enumerable:false
+        })
+        // 设置存储器属性
+        Object.defineProperty(obj,'gender',{
+            enumerable:false,
+            get(){
+                return 'boy'
+            },
+            set(val){
+                console.log('setter',val);
+            }
+        })
+    </script>
+</body>
+</html>
