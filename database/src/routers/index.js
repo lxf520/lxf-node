@@ -4,6 +4,7 @@ const Router = express.Router();
 
 const goodsRouter = require('./goods');
 const regRouter = require('./reg');
+const loginRouter = require('./login');
 // 这句话可以拿到req的请求体
 Router.use(express.urlencoded({ extended: true }), express.json());
 
@@ -20,5 +21,6 @@ Router.use((req, res, next) => {
 // 数据接口
 Router.use('/goods', goodsRouter);
 Router.use('/reg', regRouter);
+Router.use('/login',loginRouter);
 
 module.exports = Router;
