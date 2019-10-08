@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1>vue 中发ajax请求</h1>
+        <div id="app">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">title</th>
+                        <th scope="col">price</th>
+                        <th scope="col">disCount</th>
+                        <th scope="col">shopName</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(goods,idx) in goodslist">
+                        <th scope="row">{{idx+1}}</th>
+                        <td>{{(goods.title).slice(0,18)}}</td>
+                        <td>{{(goods.price*1).toFixed(2)}}</td>
+                        <td>{{goods.disCount}}</td>
+                        <td>{{goods.shopName}}</td>
+
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-primary">编辑</button>
+                                <button class="btn btn-outline-danger">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="./js/axios.js"></script>
+    <script src="./js/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                goodslist: []
+            },
+            async created() {
+                let {data} = await axios.get('http://localhost:1908/goods');
+                console.log(data);
+                this.goodslist = data.data;
+            }
+        })
+    </script>
+</body>
+
+</html>
